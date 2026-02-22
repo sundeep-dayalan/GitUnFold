@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitUnFold – Coming Soon</title>
+  <meta name="description" content="GitUnFold is under development. Stay tuned for something amazing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --brand-1: #6c63ff;
+      --brand-2: #ff6584;
+      --brand-3: #43e97b;
+      --bg-dark: #0d0d1a;
+      --bg-card: rgba(255,255,255,0.04);
+      --text-primary: #f0f0ff;
+      --text-muted: #9090b0;
+      --border: rgba(255,255,255,0.08);
+      --radius: 1.25rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    /* ── animated mesh background ── */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(108,99,255,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(255,101,132,0.14) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(67,233,123,0.08) 0%, transparent 70%);
+      animation: meshMove 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes meshMove {
+      0%   { filter: blur(0px);   transform: scale(1); }
+      100% { filter: blur(2px);   transform: scale(1.04); }
+    }
+
+    /* floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 {
+      width: 420px; height: 420px;
+      background: var(--brand-1);
+      top: -120px; left: -100px;
+      animation: float1 14s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 320px; height: 320px;
+      background: var(--brand-2);
+      bottom: -80px; right: -80px;
+      animation: float2 18s ease-in-out infinite;
+    }
+    .orb-3 {
+      width: 240px; height: 240px;
+      background: var(--brand-3);
+      top: 40%; left: 60%;
+      animation: float3 22s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%       { transform: translate(60px, 80px) scale(1.1); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50%       { transform: translate(-50px, -60px) scale(1.08); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33%       { transform: translate(-40px, 40px) scale(0.95); }
+      66%       { transform: translate(40px, -30px) scale(1.05); }
+    }
+
+    /* ── main content ── */
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 680px;
+      width: 100%;
+      gap: 1.75rem;
+    }
+
+    /* logo mark */
+    .logo-mark {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      box-shadow: 0 8px 32px rgba(108,99,255,0.45);
+      animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+      user-select: none;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* status badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.35);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #a89dff;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--brand-3);
+      box-shadow: 0 0 8px var(--brand-3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1;   transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    /* heading */
+    h1 {
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #fff 30%, #c4b8ff 70%, var(--brand-2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+
+    /* sub-heading */
+    .tagline {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 520px;
+      animation: fadeUp 0.7s 0.5s ease both;
+    }
+
+    /* card */
+    .card {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      animation: fadeUp 0.7s 0.65s ease both;
+    }
+
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .card-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 0.85rem 1.25rem;
+      border-radius: 0.75rem;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.3);
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      word-break: break-all;
+    }
+
+    .card-email:hover {
+      background: rgba(108,99,255,0.24);
+      border-color: rgba(108,99,255,0.6);
+      transform: translateY(-1px);
+    }
+
+    .card-email svg { flex-shrink: 0; opacity: 0.7; }
+
+    /* divider */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* feature pills */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      animation: fadeUp 0.7s 0.8s ease both;
+    }
+
+    .pill {
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      backdrop-filter: blur(6px);
+    }
+
+    /* footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem 1rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #555577;
+      animation: fadeUp 0.7s 0.95s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 480px) {
+      .card { padding: 1.5rem 1.25rem; }
+      .logo-mark { width: 60px; height: 60px; font-size: 1.6rem; }
+    }
+
+    @media (min-width: 768px) {
+      main { padding: 3rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh" aria-hidden="true"></div>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <main>
+    <div class="logo-mark" aria-hidden="true">GU</div>
+
+    <span class="badge">
+      <span class="badge-dot"></span>
+      Under Development
+    </span>
+
+    <h1>GitUnFold</h1>
+
+    <p class="tagline">
+      Something powerful is being built. We're crafting an experience
+      that will change the way you interact with Git. Stay tuned.
+    </p>
+
+    <div class="card" role="complementary" aria-label="Domain purchase contact">
+      <p class="card-title">Interested in this domain?</p>
+      <a href="mailto:sundeep.dayalan@gmail.com" class="card-email" aria-label="Send email to sundeep.dayalan@gmail.com">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        sundeep.dayalan@gmail.com
+      </a>
+      <div class="divider"></div>
+      <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6;">
+        To enquire about purchasing this domain, reach out via email above.
+      </p>
+    </div>
+
+    <div class="features" role="list" aria-label="Upcoming features">
+      <span class="pill" role="listitem">⚡ Fast &amp; Lightweight</span>
+      <span class="pill" role="listitem">🔒 Secure by Design</span>
+      <span class="pill" role="listitem">🌐 Open Source</span>
+      <span class="pill" role="listitem">🚀 Developer First</span>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 GitUnFold. All rights reserved.</p>
+  </footer>
+</body>
+</html>
